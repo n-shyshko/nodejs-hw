@@ -2,12 +2,10 @@ import { Joi, Segments } from 'celebrate';
 import { isValidObjectId } from 'mongoose';
 import TAGS from '../constants/tags.js';
 
-//Валідатор для ObjectId
 const objectIdValidator = (value, helpers) => {
   return !isValidObjectId(value) ? helpers.message('Invalid id format') : value;
 };
 
-//GET /notes
 export const getAllNotesSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number()
@@ -39,14 +37,12 @@ export const getAllNotesSchema = {
   }),
 };
 
-//GET /notes/:noteId
 export const noteIdSchema = {
   [Segments.PARAMS]: Joi.object({
     noteId: Joi.string().custom(objectIdValidator).required(),
   }),
 };
 
-//POST /notes
 export const createNoteSchema = {
   [Segments.BODY]: Joi.object({
     title: Joi.string().min(1).required().messages({
@@ -65,7 +61,6 @@ export const createNoteSchema = {
   }),
 };
 
-//PATCH /notes/:noteId
 export const updateNoteSchema = {
   [Segments.PARAMS]: Joi.object({
     noteId: Joi.string().custom(objectIdValidator).required(),
