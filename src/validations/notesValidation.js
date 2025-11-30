@@ -1,6 +1,6 @@
 import { Joi, Segments } from 'celebrate';
 import { isValidObjectId } from 'mongoose';
-import { TAGS } from '../constants/tags.js';
+import TAGS from '../constants/tags.js';
 
 //Валідатор для ObjectId
 const objectIdValidator = (value, helpers) => {
@@ -82,9 +82,3 @@ export const updateNoteSchema = {
       .optional(),
   }).min(1),
 };
-
-//Segments.BODY → тіло запиту (req.body);
-// Segments.PARAMS → параметри маршруту (req.params);
-// Segments.QUERY → рядок запиту (req.query);
-// Segments.HEADERS → заголовки (req.headers);
-// Segments.COOKIES → кукі (req.cookies).
