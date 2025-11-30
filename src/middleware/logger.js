@@ -1,6 +1,8 @@
 import pino from 'pino-http';
 
-export const logger = pino({
+//логування запитів
+
+const logger = pino({
   level: 'info',
   transport: {
     target: 'pino-pretty',
@@ -8,8 +10,11 @@ export const logger = pino({
       colorize: true,
       translateTime: 'HH:MM:ss',
       ignore: 'pid,hostname',
-      messageFormat: '{req.method} {req.url} {res.statusCode} - {responseTime}ms',
+      messageFormat:
+        '{req.method} {req.url} {res.statusCode} - {responseTime}ms',
       hideObject: true,
     },
   },
 });
+
+export default logger;

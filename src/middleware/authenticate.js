@@ -3,35 +3,33 @@ import { Session } from '../models/session.js';
 import { User } from '../models/user.js';
 
 export const authenticate = async (req, res, next) => {
-  if (!req.cookies.accessToken) {
-    next(createHttpError(401, 'Missing access token'));
-    return;
+  const { accessToken } = req.cookies;
+
+  if (!accessToken) {
+    return next(createHttpError(401, 'Missing access token'));
   }
 
-  const session = await Session.findOne({
-    accessToken: req.cookies.accessToken,
-  });
-
+  //Перевіряємо чи є такий токін у базі данних
+  const session = await Session.findOne({ accessToken });
   if (!session) {
-    next(createHttpError(401, 'Session not found'));
-    return;
+    return next(createHttpError(401, 'Session not found'));
   }
 
+  //Перевіряємо чи дійсний він
   const isAccessTokenExpired =
     new Date() > new Date(session.accessTokenValidUntil);
-
   if (isAccessTokenExpired) {
     return next(createHttpError(401, 'Access token expired'));
   }
 
+  //Перевіряємо чи є такий юзер в базі данних
   const user = await User.findById(session.userId);
-
   if (!user) {
-    next(createHttpError(401));
-    return;
+    return next(createHttpError(401));
   }
 
+  //додаємо нашого юзера до запиту
   req.user = user;
-
+  //передаємо управління далі
   next();
 };

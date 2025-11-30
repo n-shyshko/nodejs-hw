@@ -1,39 +1,23 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 import { TAGS } from '../constants/tags.js';
 
-const noteSchema = new Schema(
+const noteSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    content: {
-      type: String,
-      required: false,
-      trim: true,
-      default: '',
-    },
+    title: { type: String, required: true, trim: true },
+    content: { type: String, required: false, default: '', trim: true },
     tag: {
       type: String,
       required: false,
-      enum: TAGS,
       default: 'Todo',
+      enum: TAGS,
     },
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
 
-noteSchema.index({
-    title: 'text',
-    content: 'text'
-});
+noteSchema.index({ title: 'text', content: 'text' });
 
-export const Note = model('Note', noteSchema);
+//щоб спілкуватися з базою данних
+export const Note = mongoose.model('Note', noteSchema, 'notes');

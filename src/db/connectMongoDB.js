@@ -7,8 +7,9 @@ export const connectMongoDB = async () => {
     await mongoose.connect(mongoUrl);
     console.log('✅ MongoDB connection established successfully');
 
+    //перевірить, чи індекс уже існує, і створить його, якщо ні.
     await Note.syncIndexes();
-    console.log("Indexes synced successfully");
+    console.log('Indexes synced successfully');
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
     process.exit(1);

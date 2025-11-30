@@ -1,15 +1,12 @@
 import multer from 'multer';
 
 export const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 2 * 1024 * 1024,
-  },
-  fileFilter: (req, file, cb) => {
+  storage: multer.memoryStorage(), //зберігаємо в памяті
+  limits: { fileSize: 2 * 1024 * 1024 }, //не більше ніж 2 мб
+  fileFilter(req, file, callback) {
     if (!file.mimetype || !file.mimetype.startsWith('image/')) {
-      return cb(new Error('Only images allowed'));
+      return callback(new Error('Only images allowed'));
     }
-    cb(null, true);
+    callback(null, true);
   },
 });
-
