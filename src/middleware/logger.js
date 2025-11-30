@@ -1,7 +1,5 @@
 import pino from 'pino-http';
 
-//логування запитів
-
 const logger = pino({
   level: 'info',
   transport: {
